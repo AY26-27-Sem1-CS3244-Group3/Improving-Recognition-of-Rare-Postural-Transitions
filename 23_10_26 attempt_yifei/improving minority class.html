@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#173246">
+  <title>Improving Recognition of Rare Postural Transitions</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f2f5f4;
+      --surface: #fbfcfb;
+      --ink: #173246;
+      --body: #304653;
+      --muted: #687b82;
+      --line: #d5dfde;
+      --teal: #287d7c;
+      --teal-pale: #dcebe8;
+      --orange: #c25434;
+      --orange-pale: #f3e2d9;
+      --blue-pale: #e4ebef;
+      --shadow: 0 18px 55px rgba(23, 50, 70, .09);
+      --serif: Charter, "Iowan Old Style", Georgia, serif;
+      --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--body);
+      font: 16px/1.5 var(--sans);
+    }
+    button, a { font: inherit; }
+    a { color: inherit; }
+    .topbar {
+      height: 54px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 clamp(18px, 4vw, 56px);
+      border-bottom: 1px solid var(--line);
+      background: rgba(251, 252, 251, .88);
+    }
+    .brand { color: var(--ink); font-weight: 650; letter-spacing: .01em; }
+    .topbar a { color: var(--teal); font-size: .88rem; text-underline-offset: 3px; }
+    .stage { min-height: calc(100vh - 104px); display: grid; place-items: center; padding: 24px; }
+    .slide {
+      display: none;
+      width: min(1120px, 100%);
+      height: min(760px, calc(100vh - 142px));
+      min-height: 570px;
+      overflow: auto;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+      padding: clamp(30px, 5.5vw, 70px);
+      position: relative;
+    }
+    .slide.active { display: flex; flex-direction: column; }
+    .slide-head { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+    .section-tag { color: var(--teal); font-size: .83rem; font-weight: 700; letter-spacing: .04em; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, h3 { color: var(--ink); font-family: var(--serif); font-weight: 500; }
+    h1 { max-width: 760px; margin-bottom: 20px; font-size: clamp(2.8rem, 6vw, 5.4rem); line-height: .98; letter-spacing: -.04em; }
+    h2 { margin-bottom: 0; font-size: clamp(2rem, 4vw, 3.3rem); line-height: 1.04; letter-spacing: -.025em; }
+    h3 { margin-bottom: 9px; font-size: 1.32rem; }
+    p { max-width: 76ch; }
+    .lede { color: #526973; font-size: clamp(1.08rem, 1.7vw, 1.32rem); line-height: 1.5; }
+    .cover { justify-content: space-between; }
+    .cover-copy { max-width: 800px; }
+    .cover-copy .lede { max-width: 65ch; }
+    .rare-band { margin-top: 34px; padding-top: 23px; border-top: 1px solid var(--line); }
+    .band-label { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 11px; font-size: .88rem; color: var(--muted); }
+    .share-bar { height: 16px; display: flex; overflow: hidden; background: var(--blue-pale); }
+    .share-bar .rare { width: 4.74%; min-width: 10px; background: var(--orange); }
+    .cover-foot { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 28px; }
+    .stat { border-left: 2px solid var(--line); padding-left: 14px; }
+    .stat strong { display: block; color: var(--ink); font: 500 1.65rem/1.1 var(--serif); }
+    .stat span { color: var(--muted); font-size: .84rem; }
+    .method-grid { display: grid; grid-template-columns: 1.12fr 1fr 1fr; gap: clamp(18px, 3vw, 34px); }
+    .method { border-top: 2px solid var(--line); padding-top: 16px; }
+    .method:first-child { border-color: var(--teal); }
+    .method:nth-child(2) { border-color: var(--ink); }
+    .method:nth-child(3) { border-color: var(--orange); }
+    .method p { margin-bottom: 10px; font-size: .94rem; }
+    .window-strip { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin: 20px 0 12px; }
+    .window-strip span { padding: 11px 5px; text-align: center; background: var(--teal-pale); color: var(--ink); font-size: .78rem; }
+    .window-strip span:nth-child(2) { background: #c6dfdb; font-weight: 700; }
+    .formula { margin: 22px 0 12px; color: var(--ink); font: 1.35rem var(--serif); }
+    .sample-strip { display: flex; align-items: end; height: 67px; gap: 5px; margin: 17px 0 10px; border-bottom: 1px solid var(--line); }
+    .sample-strip i { display: block; width: 13%; background: var(--blue-pale); }
+    .sample-strip i:nth-child(1) { height: 85%; }
+    .sample-strip i:nth-child(2) { height: 32%; background: var(--orange-pale); }
+    .sample-strip i:nth-child(3) { height: 60%; }
+    .sample-strip i:nth-child(4) { height: 42%; background: var(--orange-pale); }
+    .sample-strip i:nth-child(5) { height: 90%; }
+    .sample-strip i:nth-child(6) { height: 38%; background: var(--orange-pale); }
+    .models-note { margin-top: auto; padding: 16px 18px; background: #edf2f1; color: #425b66; font-size: .82rem; }
+    .models-note strong { color: var(--ink); }
+    .method-caution { margin-top: 13px; color: var(--muted); font-size: .82rem; }
+    .result-topline { display: flex; align-items: end; justify-content: space-between; gap: 28px; margin-bottom: 22px; }
+    .result-topline p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .mean-row { display: grid; grid-template-columns: 150px repeat(4, 1fr); align-items: center; gap: 12px; margin: 0 0 19px; padding: 13px 15px; background: #edf2f1; font-size: .82rem; }
+    .mean-row strong { color: var(--ink); }
+    .mean-item b { display: block; color: var(--ink); font-size: 1.13rem; font-variant-numeric: tabular-nums; }
+    .mean-item small { color: var(--muted); }
+    .mean-track { display: block; height: 4px; margin-top: 7px; background: var(--line); }
+    .mean-track i { display: block; height: 100%; background: #81939a; }
+    .mean-item.context .mean-track i { background: var(--teal); }
+    .mean-item.combined .mean-track i { background: var(--orange); }
+    .table-wrap { width: 100%; overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: .88rem; font-variant-numeric: tabular-nums; }
+    th { padding: 10px 12px; color: var(--muted); border-bottom: 1px solid var(--line); text-align: right; font-size: .76rem; font-weight: 650; }
+    td { padding: 12px; border-bottom: 1px solid #e7edeb; text-align: right; color: var(--body); }
+    td small { display: block; margin-top: 2px; font-size: .72rem; font-weight: 650; }
+    th:first-child, td:first-child { text-align: left; padding-left: 0; color: var(--ink); font-weight: 600; }
+    .context-col { color: var(--teal); font-weight: 700; }
+    .best-col { color: var(--ink); font-weight: 750; }
+    .delta-up { color: var(--teal); font-weight: 700; }
+    .delta-down { color: var(--orange); font-weight: 700; }
+    .small-note { margin: 13px 0 0; color: var(--muted); font-size: .78rem; }
+    .ros-block { display: grid; grid-template-columns: 1.05fr 1.4fr; gap: 26px; margin-top: 18px; padding-top: 15px; border-top: 1px solid var(--line); }
+    .ros-block h3 { margin: 0 0 6px; font-size: 1.06rem; }
+    .ros-block p { margin: 0; font-size: .82rem; color: var(--muted); }
+    .delta-list { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+    .delta-list div { color: var(--muted); font-size: .72rem; }
+    .delta-list strong { display: block; margin-top: 2px; font-size: .95rem; font-variant-numeric: tabular-nums; }
+    .callout { margin-top: auto; padding: 15px 18px; border-left: 3px solid var(--orange); background: var(--orange-pale); color: #593f36; font-size: .86rem; }
+    .callout strong { color: var(--ink); }
+    .final-grid { display: grid; grid-template-columns: 1fr .34fr; gap: 24px; align-items: start; }
+    section[aria-labelledby="final-title"] { padding-top: 34px; padding-bottom: 34px; }
+    .final-primary table { font-size: .82rem; }
+    .final-primary th, .final-primary td { padding-top: 8px; padding-bottom: 8px; }
+    .final-detail { display: grid; grid-template-columns: 1.35fr .75fr; gap: 24px; align-items: start; margin-top: 20px; }
+    .final-detail h3 { margin-bottom: 5px; font-size: 1.12rem; }
+    .final-detail .detail-caption { margin: 0 0 7px; color: var(--muted); font-size: .76rem; }
+    .class-table table { font-size: .76rem; }
+    .class-table th, .class-table td { padding: 6px 8px; }
+    .class-table th:first-child, .class-table td:first-child { padding-left: 0; }
+    .overall-secondary { margin-top: 14px; padding: 10px 14px; display: flex; justify-content: space-between; gap: 16px; background: #edf2f1; color: var(--muted); font-size: .76rem; }
+    .overall-secondary strong { color: var(--body); font-variant-numeric: tabular-nums; }
+    .winner { padding: 22px 20px; border-top: 3px solid var(--orange); background: #f5ebe5; }
+    .winner small { display: block; margin-bottom: 12px; color: var(--muted); }
+    .winner strong { display: block; color: var(--ink); font: 500 1.8rem/1.05 var(--serif); }
+    .winner .score { margin-top: 16px; color: var(--orange); font: 500 2.6rem/1 var(--serif); }
+    .winner p { margin: 10px 0 0; font-size: .83rem; }
+    .final-note { margin-top: 12px; color: var(--muted); font-size: .82rem; }
+    .footer {
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 0 18px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+    .footer button { border: 0; padding: 5px 10px; background: transparent; color: var(--ink); cursor: pointer; }
+    .footer button:hover { color: var(--teal); }
+    .footer button:focus-visible, a:focus-visible { outline: 3px solid var(--orange); outline-offset: 3px; }
+    .progress { width: min(190px, 24vw); height: 3px; background: var(--line); }
+    .progress span { display: block; width: 20%; height: 100%; background: var(--teal); transition: width .18s ease; }
+    @media (max-width: 760px) {
+      .stage { display: block; min-height: calc(100vh - 104px); padding: 12px; }
+      .slide { width: 100%; height: auto; min-height: calc(100vh - 128px); padding: 28px 22px; }
+      .method-grid, .final-grid, .final-detail { grid-template-columns: 1fr; }
+      .method-grid { gap: 18px; }
+      .method { padding-top: 11px; }
+      .models-note { margin-top: 18px; }
+      .mean-row { grid-template-columns: repeat(2, 1fr); }
+      .mean-row > strong { grid-column: 1 / -1; }
+      .ros-block { grid-template-columns: 1fr; }
+      .cover-foot { gap: 12px; }
+      .stat strong { font-size: 1.35rem; }
+      table { min-width: 660px; }
+      .final-grid table { min-width: 570px; }
+      .class-table table { min-width: 460px; }
+      .overall-secondary { flex-wrap: wrap; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">CS3244 · HAPT</div>
+    <a href="improving%20minority%20class.md">Read the report</a>
+  </header>
+
+  <main class="stage" id="presentation" aria-live="polite">
+    <section class="slide cover active" aria-labelledby="title-slide">
+      <div class="cover-copy">
+        <div class="section-tag">Rare transitions in smartphone activity recognition</div>
+        <h1 id="title-slide">Improving recognition of rare postural transitions</h1>
+        <p class="lede">As expected in our CS3244 proposal, standard models recognise common activities more reliably than the brief transitions between postures. This round tests ways to improve minority-class test performance.</p>
+      </div>
+      <div class="rare-band">
+        <div class="band-label"><span>All HAPT windows</span><span>Six postural transitions: 518 / 10,929 (4.7%)</span></div>
+        <div class="share-bar" role="img" aria-label="Postural transitions are 4.7 percent of all labelled windows"><span class="rare"></span><span></span></div>
+        <div class="cover-foot">
+          <div class="stat"><strong>12 classes</strong><span>6 common activities + 6 transitions</span></div>
+          <div class="stat"><strong>4.7%</strong><span>of labelled windows are transitions</span></div>
+          <div class="stat"><strong>Macro-F1</strong><span>primary metric for rare-class recognition</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="methods-title">
+      <div class="slide-head"><h2 id="methods-title">Three changes to the training signal</h2><span class="section-tag">METHOD</span></div>
+      <div class="method-grid">
+        <article class="method">
+          <h3>Keep temporal context</h3>
+          <p>Join the previous, current, and following feature windows within each participant.</p>
+          <div class="window-strip" aria-label="Previous, current, and following windows"><span>Previous<br>561 features</span><span>Current<br>561 features</span><span>Following<br>561 features</span></div>
+          <p><strong>1,683 features per example.</strong> The following window makes this an offline classifier.</p>
+        </article>
+        <article class="method">
+          <h3>Weight rare-class errors</h3>
+          <p>Each training example receives a class-based weight computed within its training fold.</p>
+          <div class="formula">w<sub>c</sub> ∝ n<sub>c</sub><sup>−0.5</sup></div>
+          <p>Weights are normalised to mean 1. No model architecture or model hyperparameter is changed.</p>
+        </article>
+        <article class="method">
+          <h3>Copy rare examples</h3>
+          <p>Randomly oversample transition examples in training folds only.</p>
+          <div class="sample-strip" aria-label="Minority examples are copied to increase their training frequency"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+          <p>Test targets: 60 or 100 rows per transition class. Tested as an addition to context + weighting.</p>
+        </article>
+      </div>
+      <div class="models-note"><strong>Weighting implementation:</strong> sample weights for logistic regression (C=0.1), linear SVM (C=0.01), random forest (200 trees), and XGBoost (300 trees; depth 6). The MLP uses weighted cross-entropy (256-128-64 units, Adam 0.001, 20 epochs). An earlier PCA-200 ablation hurt the four non-neural models and was nearly neutral for the MLP, so these results use raw features.</div>
+      <p class="method-caution">Validation: 3-fold StratifiedGroupKFold, grouped by participant (seed 42). Test results are descriptive; the project test split was examined earlier.</p>
+    </section>
+
+    <section class="slide" aria-labelledby="validation-title">
+      <div class="result-topline">
+        <div><div class="section-tag">VALIDATION · TRANSITION MACRO-F1</div><h2 id="validation-title">Context gives the largest lift</h2></div>
+        <p>Higher is better. Baseline: one window, no weights.</p>
+      </div>
+      <div class="mean-row" aria-label="Mean F1 across the five model configurations">
+        <strong>Mean across five models</strong>
+        <div class="mean-item"><b>0.707</b><small>Baseline</small><span class="mean-track"><i style="width:70.7%"></i></span></div>
+        <div class="mean-item"><b>0.732</b><small>Weights only · +0.026</small><span class="mean-track"><i style="width:73.2%"></i></span></div>
+        <div class="mean-item context"><b>0.829</b><small>Context only · +0.122</small><span class="mean-track"><i style="width:82.9%"></i></span></div>
+        <div class="mean-item combined"><b>0.851</b><small>Context + weights · +0.144</small><span class="mean-track"><i style="width:85.1%"></i></span></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Baseline</th><th>Weights only<br>F1 (Δ)</th><th class="context-col">3 windows only<br>F1 (Δ)</th><th class="best-col">3 windows + weights<br>F1 (Δ)</th></tr></thead>
+          <tbody>
+            <tr><td>Logistic regression</td><td>0.743</td><td>0.739<small class="delta-down">−0.005</small></td><td class="context-col">0.854<small class="delta-up">+0.111</small></td><td class="best-col">0.863<small class="delta-up">+0.120</small></td></tr>
+            <tr><td>Linear SVM</td><td>0.737</td><td>0.745<small class="delta-up">+0.008</small></td><td class="context-col">0.850<small class="delta-up">+0.114</small></td><td class="best-col">0.865<small class="delta-up">+0.128</small></td></tr>
+            <tr><td>Random forest</td><td>0.641</td><td>0.679<small class="delta-up">+0.038</small></td><td class="context-col">0.813<small class="delta-up">+0.172</small></td><td class="best-col">0.824<small class="delta-up">+0.183</small></td></tr>
+            <tr><td>XGBoost</td><td>0.677</td><td>0.756<small class="delta-up">+0.079</small></td><td class="context-col">0.795<small class="delta-up">+0.118</small></td><td class="best-col">0.840<small class="delta-up">+0.162</small></td></tr>
+            <tr><td>MLP, 20 epochs</td><td>0.734</td><td>0.742<small class="delta-up">+0.008</small></td><td class="context-col">0.831<small class="delta-up">+0.097</small></td><td class="best-col">0.862<small class="delta-up">+0.127</small></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ros-block">
+        <div><h3>Oversampling added to context + weights</h3><p>Target 60, change in validation F1. Target 100 was neutral or harmful for most models. Random forest was confirmed across three fold seeds: +0.010 mean over nine paired folds, positive in 8/9.</p></div>
+        <div class="delta-list"><div>Logistic regression<strong class="delta-up">+0.001</strong></div><div>Linear SVM<strong class="delta-up">+0.002</strong></div><div>Random forest<strong class="delta-up">+0.014</strong></div><div>XGBoost<strong class="delta-down">−0.004</strong></div><div>MLP<strong class="delta-down">−0.023</strong></div></div>
+      </div>
+    </section>
+
+    <section class="slide" aria-labelledby="test-title">
+      <div class="result-topline">
+        <div><div class="section-tag">HELD-OUT PARTICIPANTS · TRANSITION MACRO-F1</div><h2 id="test-title">Test results also favour context</h2></div>
+        <p>Nine test participants. The split was examined earlier.</p>
+      </div>
+      <div class="mean-row" aria-label="Mean test F1 across the five model configurations">
+        <strong>Mean across five models</strong>
+        <div class="mean-item"><b>0.759</b><small>Baseline</small><span class="mean-track"><i style="width:75.9%"></i></span></div>
+        <div class="mean-item"><b>0.772</b><small>Weights only · +0.013</small><span class="mean-track"><i style="width:77.2%"></i></span></div>
+        <div class="mean-item context"><b>0.881</b><small>Context only · +0.122</small><span class="mean-track"><i style="width:88.1%"></i></span></div>
+        <div class="mean-item combined"><b>0.871</b><small>Context + weights · +0.112</small><span class="mean-track"><i style="width:87.1%"></i></span></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Model</th><th>Baseline</th><th>Weights only<br>F1 (Δ)</th><th class="context-col">3 windows only<br>F1 (Δ)</th><th class="best-col">3 windows + weights<br>F1 (Δ)</th></tr></thead>
+          <tbody>
+            <tr><td>Logistic regression</td><td>0.753</td><td>0.725<small class="delta-down">−0.028</small></td><td class="context-col">0.904<small class="delta-up">+0.151</small></td><td class="best-col">0.897<small class="delta-up">+0.143</small></td></tr>
+            <tr><td>Linear SVM</td><td>0.811</td><td>0.781<small class="delta-down">−0.031</small></td><td class="context-col">0.882<small class="delta-up">+0.071</small></td><td class="best-col">0.878<small class="delta-up">+0.067</small></td></tr>
+            <tr><td>Random forest</td><td>0.712</td><td>0.753<small class="delta-up">+0.041</small></td><td class="context-col">0.872<small class="delta-up">+0.160</small></td><td class="best-col">0.873<small class="delta-up">+0.161</small></td></tr>
+            <tr><td>XGBoost</td><td>0.789</td><td>0.785<small class="delta-down">−0.004</small></td><td class="context-col">0.885<small class="delta-up">+0.097</small></td><td class="best-col">0.846<small class="delta-up">+0.058</small></td></tr>
+            <tr><td>MLP, 20 epochs</td><td>0.729</td><td>0.814<small class="delta-up">+0.085</small></td><td class="context-col">0.863<small class="delta-up">+0.134</small></td><td class="best-col">0.863<small class="delta-up">+0.134</small></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="ros-block">
+        <div><h3>Test F1 change with ROS 60</h3><p>Increment versus the same model with context + weights but no resampling.</p></div>
+        <div class="delta-list"><div>Logistic regression<strong>+0.000</strong></div><div>Linear SVM<strong>+0.000</strong></div><div>Random forest<strong class="delta-up">+0.009</strong></div><div>XGBoost<strong class="delta-up">+0.012</strong></div><div>MLP<strong class="delta-up">+0.019</strong></div></div>
+      </div>
+      <p class="small-note">ROS test gains do not fully match validation: XGBoost and MLP declined in validation. Treat this test split as descriptive, not as an untouched final evaluation.</p>
+    </section>
+
+    <section class="slide" aria-labelledby="final-title">
+      <div class="slide-head"><h2 id="final-title">Transition performance by model</h2><span class="section-tag">3 WINDOWS + MILD WEIGHTS</span></div>
+      <div class="final-grid">
+        <div class="table-wrap final-primary">
+          <table>
+            <thead><tr><th>Model</th><th>Validation<br>Transition F1</th><th>Test<br>Transition F1</th><th>Test<br>Transition recall</th></tr></thead>
+            <tbody>
+              <tr><td>Logistic regression</td><td>0.863</td><td class="best-col">0.897</td><td class="best-col">0.893</td></tr>
+              <tr><td>Linear SVM</td><td class="context-col">0.865</td><td>0.878</td><td>0.877</td></tr>
+              <tr><td>Random forest</td><td>0.824</td><td>0.873</td><td>0.866</td></tr>
+              <tr><td>XGBoost</td><td>0.840</td><td>0.846</td><td>0.852</td></tr>
+              <tr><td>MLP, 20 epochs</td><td>0.862</td><td>0.863</td><td>0.871</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <aside class="winner">
+          <small>Highest test transition F1</small>
+          <strong>Logistic<br>regression</strong>
+          <div class="score">0.897</div>
+          <p>Logistic regression also leads across three validation seeds.</p>
+        </aside>
+      </div>
+      <div class="final-detail">
+        <div class="class-table">
+          <h3>Where did transition F1 improve?</h3>
+          <p class="detail-caption">Logistic regression · one-window baseline vs three windows + mild weights · test F1</p>
+          <div class="table-wrap">
+            <table>
+              <thead><tr><th>Transition class</th><th>n</th><th>Baseline</th><th>With method</th><th>Change</th></tr></thead>
+              <tbody>
+                <tr><td>Stand to sit</td><td>23</td><td>0.800</td><td>0.978</td><td class="delta-up">+0.178</td></tr>
+                <tr><td>Sit to stand</td><td>10</td><td>1.000</td><td>0.952</td><td class="delta-down">−0.048</td></tr>
+                <tr><td>Sit to lie</td><td>32</td><td>0.635</td><td>0.813</td><td class="delta-up">+0.178</td></tr>
+                <tr><td>Lie to sit</td><td>25</td><td>0.745</td><td>0.906</td><td class="delta-up">+0.161</td></tr>
+                <tr><td>Stand to lie</td><td>49</td><td>0.686</td><td>0.833</td><td class="delta-up">+0.147</td></tr>
+                <tr><td>Lie to stand</td><td>27</td><td>0.653</td><td>0.898</td><td class="delta-up">+0.245</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="callout"><strong>Takeaway:</strong> temporal context drives the largest gains. Mild weighting is model-dependent; oversampling is a modest random-forest candidate, not a universal fix.</div>
+      </div>
+      <div class="overall-secondary"><span>Secondary overall context · logistic regression, baseline → selected model</span><span>Common-class macro-F1 <strong>0.951 → 0.957</strong></span><span>Accuracy <strong>0.939 → 0.953</strong></span></div>
+      <p class="final-note">The test split has been viewed during this project. The three-window method is offline because it uses a following window. See the linked report for exact protocols and caveats.</p>
+    </section>
+  </main>
+
+  <nav class="footer" aria-label="Presentation navigation">
+    <button type="button" id="previous" aria-label="Previous slide">← Previous</button>
+    <span id="slide-count" aria-live="polite">1 / 5</span>
+    <div class="progress" role="progressbar" aria-label="Presentation progress" aria-valuemin="1" aria-valuemax="5" aria-valuenow="1"><span id="progress-fill"></span></div>
+    <button type="button" id="next" aria-label="Next slide">Next →</button>
+  </nav>
+  <script>
+    (function () {
+      var slides = Array.prototype.slice.call(document.querySelectorAll('.slide'));
+      var current = 0;
+      var count = document.getElementById('slide-count');
+      var fill = document.getElementById('progress-fill');
+      var progress = document.querySelector('[role="progressbar"]');
+      function show(index) {
+        current = Math.max(0, Math.min(slides.length - 1, index));
+        slides.forEach(function (slide, i) {
+          slide.classList.toggle('active', i === current);
+          slide.setAttribute('aria-hidden', i === current ? 'false' : 'true');
+        });
+        count.textContent = (current + 1) + ' / ' + slides.length;
+        fill.style.width = (((current + 1) / slides.length) * 100) + '%';
+        progress.setAttribute('aria-valuenow', String(current + 1));
+      }
+      document.getElementById('previous').addEventListener('click', function () { show(current - 1); });
+      document.getElementById('next').addEventListener('click', function () { show(current + 1); });
+      document.addEventListener('keydown', function (event) {
+        if (event.altKey || event.ctrlKey || event.metaKey) return;
+        if (event.key === 'ArrowRight' || event.key === 'PageDown') show(current + 1);
+        if (event.key === 'ArrowLeft' || event.key === 'PageUp') show(current - 1);
+        if (event.key === 'Home') show(0);
+        if (event.key === 'End') show(slides.length - 1);
+      });
+      show(0);
+    }());
+  </script>
+</body>
+</html>
