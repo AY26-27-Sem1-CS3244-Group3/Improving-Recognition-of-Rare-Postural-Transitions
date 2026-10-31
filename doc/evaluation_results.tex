@@ -1,0 +1,93 @@
+% Evaluation-section text for inclusion in the team's existing LaTeX report.
+% Source: our approach/evaluation.ipynb, based on main a34f744.
+% This is a section fragment, not a standalone report or a new experiment.
+
+\subsection{Evaluation protocol and metrics}
+We retain the official participant-separated training and test splits, with
+7,767 training windows and 3,162 test windows. Transitions account for only
+352 training windows (4.53\%) and 166 test windows (5.25\%). Accordingly,
+our primary metric is macro-F1 over the six transition classes (IDs 7--12),
+which gives each transition equal weight. Transition macro-recall, common-class
+macro-F1, overall macro-F1 and accuracy provide complementary measures.
+Model development uses three-fold participant-grouped validation within the
+training participants. The final test comparison describes the retained
+configurations; the test participants were inspected during development and
+therefore do not provide an untouched final estimate.
+
+\subsection{Controlled comparisons}
+For the original five model families, mean validation transition F1 increases
+from 0.7080 with a single window to 0.8422 with three-window context, compared
+with 0.7352 from class weighting alone. At fixed context, weighting improves
+four of five models, with small single-window degradation for logistic
+regression and a 3.20-percentage-point reduction for the three-window MLP.
+Thus, context gives the clearest consistent improvement, while weighting is
+model dependent. For LDA with equal priors and memory off, transition F1
+increases from 0.7567 with the current window to 0.7811 with the previous
+and current windows, and 0.8917 with previous/current/next windows.
+LDA has no sample-weighting arm, so its missing weighting results are not
+zero scores.
+
+Random oversampling is not consistently beneficial. For example, LDA's
+three-window validation transition F1 decreases to 0.8894 and 0.8881 at
+targets 60 and 100, respectively. PCA also has model-specific trade-offs:
+LR PCA-400 gives repeatable runtime savings within the chosen quality
+tolerances, whereas LDA PCA-500 loses 1.83 percentage points of transition
+F1 and 1.75 points of common F1. The retained LDA therefore uses raw features.
+
+\subsection{Comparison of final configurations}
+Table~\ref{tab:final-evaluation} compares all six retained pipelines. The first
+five models use mild class weighting; LDA uses equal priors. MLP and LDA
+include posture-memory postprocessing. No final configuration uses oversampling.
+Different window lengths and class treatments mean this comparison does not
+isolate the effect of classifier family.
+
+\begin{table}[htbp]
+\centering
+\small
+\caption{Recorded scores for the retained configurations. CV is the mean
+participant-grouped validation transition F1; the other columns use the official
+test windows. Only LR uses PCA-400.}
+\label{tab:final-evaluation}
+\begin{tabular}{lrrrrrr}
+\hline
+Model & Windows & CV & Trans. F1 & Common F1 & Macro F1 & Accuracy \\
+\hline
+Logistic regression & 7 & 0.9048 & 0.9373 & 0.9615 & 0.9494 & 0.9592 \\
+Linear SVM          & 7 & 0.8834 & 0.9322 & 0.9784 & 0.9553 & 0.9741 \\
+Random forest       & 9 & 0.9201 & 0.9296 & 0.9344 & 0.9320 & 0.9345 \\
+XGBoost             & 7 & 0.9033 & 0.9285 & 0.9696 & 0.9491 & 0.9681 \\
+MLP + memory        & 11 & 0.9302 & 0.9716 & 0.9766 & 0.9741 & 0.9756 \\
+LDA + memory        & 7 & 0.9699 & 0.9779 & 0.9787 & 0.9783 & 0.9782 \\
+\hline
+\end{tabular}
+\end{table}
+
+Seven-window shrinkage LDA with posture memory has the highest validation
+transition F1 among the retained configurations (0.9699). Its test transition
+F1 is 0.9779, compared with 0.9716 for the eleven-window MLP, a difference
+of 0.63 percentage points using the rounded scores. LDA's transition
+macro-precision and macro-recall are 0.9829 and 0.9736. These descriptive
+differences do not establish statistical significance or general superiority.
+
+\subsection{Error analysis and limitations}
+Recomputing LDA's metrics from all 3,162 saved test predictions reproduces
+the recorded confusion matrix and aggregate scores. LDA correctly labels
+161 of 166 true transition windows, versus MLP's recorded 158. LDA's
+\texttt{STAND\_TO\_SIT} has the lowest transition F1 (0.9565), while
+\texttt{LIE\_TO\_STAND} has the lowest transition recall (25/27, or 92.59\%).
+The five true-transition errors comprise three predictions as common activities
+and two predictions as another transition. Four belong to participant 24.
+One additional common window is falsely predicted as a transition:
+\texttt{LAYING} to \texttt{STAND\_TO\_LIE}.
+Of LDA's 69 total errors, 48 are sitting/standing swaps and 13 are
+walking-downstairs windows predicted as another walking activity.
+
+Full MLP per-window predictions are not archived in the current source
+notebooks, so its full confusion matrix, per-class precision and error
+destinations cannot be reconstructed from correct/support counts alone.
+Nor do F1-only weighting tables establish matched recall or common-class
+trade-offs. Future-window context describes offline inference, and the prepared
+CSVs lack timestamps and within-participant recording IDs. Window-level results
+therefore do not establish online or event-level performance. Recording-aware
+evaluation and preserving complete predictions would address these limitations;
+the observed test errors should not be used to retune the selected pipelines.
