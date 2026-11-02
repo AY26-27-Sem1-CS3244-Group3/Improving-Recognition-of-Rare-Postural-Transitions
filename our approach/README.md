@@ -47,6 +47,10 @@ accuracy and confusion counts were also checked independently against
 scikit-learn, without fitting any model. The two model notebooks and datasets
 were unchanged.
 
+The LaTeX fragment was compiled in single-column and two-column layouts. Its
+results table spans both columns in a two-column report. The fragment still
+needs to be included in the team's final report and checked in that document.
+
 Source snapshot: main commit `a34f74496f7d349d5c8481415d92f2f82932c3bb`.
 
 - Main notebook SHA-256: `008c09bf9b50959236f32e927cf5fd4b91d6924bb7d179cffba16e51e89d1388`
