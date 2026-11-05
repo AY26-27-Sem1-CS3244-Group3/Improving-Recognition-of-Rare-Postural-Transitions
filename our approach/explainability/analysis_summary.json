@@ -1,0 +1,122 @@
+{
+  "environment": {
+    "purpose": "One user-authorized fit of the previously selected configuration for local explanations only",
+    "model_fit_count": 1,
+    "cv_or_search_performed": false,
+    "configuration": "7-window raw StandardScaler + LDA(lsqr, shrinkage=auto, equal priors) + posture memory",
+    "python": "3.13.6",
+    "numpy": "2.3.2",
+    "pandas": "2.3.3",
+    "sklearn": "1.9.0",
+    "fit_and_prediction_seconds": 41.96717040000658,
+    "recorded_prediction_mismatches": 0,
+    "training_csv_sha256": "65d79eda271ee5b61d0f63baa213a3aed547a992e2561abfc4d2aed161ca9888",
+    "test_csv_sha256": "69a02708ce7ec570f826fec37cd84c7520decda409f1b8212d4c155c7e11458f",
+    "companion_sha256": "ce5918463c07239071ca491eda1387af4a5a151ddb0a6a241635a9f4d63635f7",
+    "main_sha256": "008c09bf9b50959236f32e927cf5fd4b91d6924bb7d179cffba16e51e89d1388"
+  },
+  "lime_version": "0.2.0.1",
+  "cases": [
+    {
+      "Case": "Correct transition",
+      "Test row": 16,
+      "Participant": 2,
+      "True class": "STAND_TO_SIT",
+      "LDA prediction": "STAND_TO_SIT",
+      "Score contrast": "SIT_TO_STAND",
+      "LDA class probability": 1.0,
+      "Memory changes original label": false
+    },
+    {
+      "Case": "Transition error",
+      "Test row": 2874,
+      "Participant": 24,
+      "True class": "LIE_TO_STAND",
+      "LDA prediction": "WALKING",
+      "Score contrast": "LIE_TO_STAND",
+      "LDA class probability": 1.0,
+      "Memory changes original label": false
+    }
+  ],
+  "lime_diagnostics": [
+    {
+      "Case": "Correct transition",
+      "Test row": 16,
+      "Seed": 42,
+      "Local R2": 0.009715940945051793,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.9895020125471521,
+      "Absolute probability error": 0.010497987452847912,
+      "Top-10 Jaccard vs seed 42": 1.0,
+      "Shared-feature sign agreement": 1.0
+    },
+    {
+      "Case": "Correct transition",
+      "Test row": 16,
+      "Seed": 123,
+      "Local R2": 0.015131437146846172,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.9899525798976585,
+      "Absolute probability error": 0.010047420102341498,
+      "Top-10 Jaccard vs seed 42": 0.1111111111111111,
+      "Shared-feature sign agreement": 0.0
+    },
+    {
+      "Case": "Correct transition",
+      "Test row": 16,
+      "Seed": 2026,
+      "Local R2": 0.011956922482399879,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.9868313043025533,
+      "Absolute probability error": 0.01316869569744672,
+      "Top-10 Jaccard vs seed 42": 0.1111111111111111,
+      "Shared-feature sign agreement": 0.5
+    },
+    {
+      "Case": "Transition error",
+      "Test row": 2874,
+      "Seed": 42,
+      "Local R2": 0.010683272130855848,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.8846047649512696,
+      "Absolute probability error": 0.1153952350487304,
+      "Top-10 Jaccard vs seed 42": 1.0,
+      "Shared-feature sign agreement": 1.0
+    },
+    {
+      "Case": "Transition error",
+      "Test row": 2874,
+      "Seed": 123,
+      "Local R2": 0.014152407470548689,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.8860018752906605,
+      "Absolute probability error": 0.11399812470933945,
+      "Top-10 Jaccard vs seed 42": 0.17647058823529413,
+      "Shared-feature sign agreement": 0.3333333333333333
+    },
+    {
+      "Case": "Transition error",
+      "Test row": 2874,
+      "Seed": 2026,
+      "Local R2": 0.012546868884553475,
+      "LDA probability": 1.0,
+      "LIME approximation": 0.8838353126610816,
+      "Absolute probability error": 0.11616468733891838,
+      "Top-10 Jaccard vs seed 42": 0.05263157894736842,
+      "Shared-feature sign agreement": 1.0
+    }
+  ],
+  "exact_margins": {
+    "16": {
+      "reference_margin": 79.21350016375399,
+      "margin": 103.32488269451018,
+      "contrast": 7.0
+    },
+    "2874": {
+      "reference_margin": 128.05123224201583,
+      "margin": 187.31937744419582,
+      "contrast": 11.0
+    }
+  },
+  "executed_code_cells": 44
+}
