@@ -1,0 +1,288 @@
+{
+  "source": {
+    "notebook": "Improving Rare Postural Transitions.ipynb",
+    "cell_index": 41
+  },
+  "class_ids": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12
+  ],
+  "confusion_counts": [
+    [
+      494,
+      0,
+      2,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      3,
+      467,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      5,
+      10,
+      405,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      2,
+      0,
+      463,
+      42,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0
+    ],
+    [
+      0,
+      1,
+      0,
+      18,
+      537,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      5,
+      539,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      22,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      10,
+      0,
+      0,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      26,
+      0,
+      5,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      24,
+      0,
+      0
+    ],
+    [
+      0,
+      0,
+      0,
+      1,
+      0,
+      2,
+      0,
+      0,
+      2,
+      0,
+      44,
+      0
+    ],
+    [
+      1,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      25
+    ]
+  ],
+  "exact_scores": {
+    "transition_f1": 0.9314048696401637,
+    "transition_recall": 0.925484474788305,
+    "common_f1": 0.9695967435098097,
+    "accuracy": 0.9664769133459835
+  },
+  "transition_errors": [
+    {
+      "test_row": 50,
+      "participant": 2,
+      "actual": 11,
+      "predicted": 9
+    },
+    {
+      "test_row": 51,
+      "participant": 2,
+      "actual": 11,
+      "predicted": 6
+    },
+    {
+      "test_row": 65,
+      "participant": 2,
+      "actual": 10,
+      "predicted": 4
+    },
+    {
+      "test_row": 1038,
+      "participant": 10,
+      "actual": 9,
+      "predicted": 11
+    },
+    {
+      "test_row": 1188,
+      "participant": 10,
+      "actual": 9,
+      "predicted": 8
+    },
+    {
+      "test_row": 1989,
+      "participant": 18,
+      "actual": 7,
+      "predicted": 4
+    },
+    {
+      "test_row": 2434,
+      "participant": 20,
+      "actual": 11,
+      "predicted": 6
+    },
+    {
+      "test_row": 2470,
+      "participant": 20,
+      "actual": 9,
+      "predicted": 11
+    },
+    {
+      "test_row": 2471,
+      "participant": 20,
+      "actual": 9,
+      "predicted": 11
+    },
+    {
+      "test_row": 2660,
+      "participant": 20,
+      "actual": 9,
+      "predicted": 11
+    },
+    {
+      "test_row": 2661,
+      "participant": 20,
+      "actual": 9,
+      "predicted": 11
+    },
+    {
+      "test_row": 2810,
+      "participant": 24,
+      "actual": 11,
+      "predicted": 4
+    },
+    {
+      "test_row": 2812,
+      "participant": 24,
+      "actual": 11,
+      "predicted": 9
+    },
+    {
+      "test_row": 2872,
+      "participant": 24,
+      "actual": 12,
+      "predicted": 10
+    },
+    {
+      "test_row": 2874,
+      "participant": 24,
+      "actual": 12,
+      "predicted": 1
+    }
+  ]
+}

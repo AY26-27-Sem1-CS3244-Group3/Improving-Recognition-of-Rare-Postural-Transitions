@@ -1,0 +1,13 @@
+reference,group,windows,margin_decreased,mean_drop
+Training mean,Past,166,157,3.188048
+Training mean,Future,166,138,3.3999126
+Training mean,All neighbours,166,158,5.638069
+Sitting,Past,166,118,3.338476
+Sitting,Future,166,140,3.731065
+Sitting,All neighbours,166,147,6.4540567
+Standing,Past,166,129,2.6621165
+Standing,Future,166,143,4.154349
+Standing,All neighbours,166,157,5.927756
+Laying,Past,166,132,3.131084
+Laying,Future,166,128,3.573554
+Laying,All neighbours,166,153,6.1877794

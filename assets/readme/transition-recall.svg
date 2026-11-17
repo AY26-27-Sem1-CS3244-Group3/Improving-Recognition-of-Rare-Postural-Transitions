@@ -1,0 +1,55 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="710" viewBox="0 0 1200 710" role="img" aria-labelledby="title desc">
+  <title id="title">Recall by transition class on the official test split</title>
+  <desc id="desc">Each count shows correctly classified windows out of the number that truly belong to the class. LDA versus MLP, both with posture memory: stand-to-sit 22 of 23 versus 20 of 23, sit-to-stand 10 of 10 each, sit-to-lie 32 of 32 each, lie-to-sit 25 of 25 versus 24 of 25, stand-to-lie 47 of 49 versus 46 of 49, lie-to-stand 25 of 27 versus 26 of 27.</desc>
+  <rect width="1200" height="710" rx="20" fill="#f5f8f7"/>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif" fill="#102b35">
+    <text x="56" y="91" font-size="48" font-weight="700">Recall by transition class</text>
+    <text x="56" y="145" font-size="34" fill="#4c616b">Correct / total test windows</text>
+
+    <path d="M56 224H1144 M56 297H1144 M56 370H1144 M56 443H1144 M56 516H1144 M56 589H1144 M56 662H1144" stroke="#c5d2d5" stroke-width="2"/>
+    <g font-size="39" font-weight="700">
+      <text x="604" y="201" text-anchor="middle" fill="#175b86">LDA</text>
+      <text x="970" y="201" text-anchor="middle" fill="#a74e2d">MLP</text>
+    </g>
+    <g font-size="39">
+      <text x="56" y="265">Stand → sit</text>
+      <text x="56" y="338">Sit → stand</text>
+      <text x="56" y="411">Sit → lie</text>
+      <text x="56" y="484">Lie → sit</text>
+      <text x="56" y="557">Stand → lie</text>
+      <text x="56" y="630">Lie → stand</text>
+    </g>
+    <g font-size="38" font-variant-numeric="tabular-nums">
+      <text x="604" y="265" text-anchor="middle">22 / 23</text><text x="970" y="265" text-anchor="middle">20 / 23</text>
+      <text x="604" y="338" text-anchor="middle">10 / 10</text><text x="970" y="338" text-anchor="middle">10 / 10</text>
+      <text x="604" y="411" text-anchor="middle">32 / 32</text><text x="970" y="411" text-anchor="middle">32 / 32</text>
+      <text x="604" y="484" text-anchor="middle">25 / 25</text><text x="970" y="484" text-anchor="middle">24 / 25</text>
+      <text x="604" y="557" text-anchor="middle">47 / 49</text><text x="970" y="557" text-anchor="middle">46 / 49</text>
+      <text x="604" y="630" text-anchor="middle">25 / 27</text><text x="970" y="630" text-anchor="middle">26 / 27</text>
+    </g>
+    <g fill="#dfe7e9">
+      <rect x="474" y="278" width="260" height="8" rx="4"/><rect x="840" y="278" width="260" height="8" rx="4"/>
+      <rect x="474" y="351" width="260" height="8" rx="4"/><rect x="840" y="351" width="260" height="8" rx="4"/>
+      <rect x="474" y="424" width="260" height="8" rx="4"/><rect x="840" y="424" width="260" height="8" rx="4"/>
+      <rect x="474" y="497" width="260" height="8" rx="4"/><rect x="840" y="497" width="260" height="8" rx="4"/>
+      <rect x="474" y="570" width="260" height="8" rx="4"/><rect x="840" y="570" width="260" height="8" rx="4"/>
+      <rect x="474" y="643" width="260" height="8" rx="4"/><rect x="840" y="643" width="260" height="8" rx="4"/>
+    </g>
+    <g fill="#175b86">
+      <rect x="474" y="278" width="248.696" height="8" rx="4"/>
+      <rect x="474" y="351" width="260" height="8" rx="4"/>
+      <rect x="474" y="424" width="260" height="8" rx="4"/>
+      <rect x="474" y="497" width="260" height="8" rx="4"/>
+      <rect x="474" y="570" width="249.388" height="8" rx="4"/>
+      <rect x="474" y="643" width="240.741" height="8" rx="4"/>
+    </g>
+    <g fill="#a74e2d">
+      <rect x="840" y="278" width="226.087" height="8" rx="4"/>
+      <rect x="840" y="351" width="260" height="8" rx="4"/>
+      <rect x="840" y="424" width="260" height="8" rx="4"/>
+      <rect x="840" y="497" width="249.6" height="8" rx="4"/>
+      <rect x="840" y="570" width="244.082" height="8" rx="4"/>
+      <rect x="840" y="643" width="250.37" height="8" rx="4"/>
+    </g>
+  </g>
+</svg>

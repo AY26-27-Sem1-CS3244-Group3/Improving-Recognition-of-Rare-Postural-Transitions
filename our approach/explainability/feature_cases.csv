@@ -1,0 +1,17 @@
+row,offset,reference,features,signed_ig,absolute_ig_rank,margin_drop,ablated_prediction
+65,-1,Training mean,tBodyAcc-Mean-1,0.43536898,1.0,0.39654303,SITTING
+65,-1,Training mean,tGravityAcc-Mad-1,0.28386542,2.0,0.33928394,SITTING
+65,-1,Training mean,tGravityAcc-Min-1,-0.26353967,3.0,-0.27491474,SITTING
+51,-1,Training mean,"tBodyAcc-Mean-1, tGravityAcc-IQR-1, fBodyGyro-Min-1, tGravityAcc-Min-1, tGravityAcc-STD-1",0.45939383,,0.42466402,STAND_TO_LIE
+65,-1,Sitting,tBodyAcc-Mean-1,0.3936498,1.0,0.39706326,SITTING
+65,-1,Sitting,tGravityAcc-Mad-1,0.29811776,2.0,0.34864902,SITTING
+65,-1,Sitting,tGravityAcc-Min-1,-0.25875813,3.0,-0.33074093,SITTING
+51,-1,Sitting,"tBodyAcc-Mean-1, tGravityAcc-IQR-1, fBodyGyro-Min-1, tGravityAcc-Min-1, tGravityAcc-STD-1",0.23458561,,0.43786097,STAND_TO_LIE
+65,-1,Standing,tBodyAcc-Mean-1,0.33812055,1.0,0.3963356,SITTING
+65,-1,Standing,tGravityAcc-Mad-1,0.25514397,2.0,0.34932232,SITTING
+65,-1,Standing,tGravityAcc-Min-1,-0.22211467,3.0,-0.35251236,SITTING
+51,-1,Standing,"tBodyAcc-Mean-1, tGravityAcc-IQR-1, fBodyGyro-Min-1, tGravityAcc-Min-1, tGravityAcc-STD-1",0.337898,,0.45320463,STAND_TO_LIE
+65,-1,Laying,tBodyAcc-Mean-1,0.35066384,1.0,0.39999247,SITTING
+65,-1,Laying,tGravityAcc-Mad-1,0.2951574,2.0,0.3489189,SITTING
+65,-1,Laying,tGravityAcc-Min-1,-0.10454854,27.0,-0.10390377,SITTING
+51,-1,Laying,"tBodyAcc-Mean-1, tGravityAcc-IQR-1, fBodyGyro-Min-1, tGravityAcc-Min-1, tGravityAcc-STD-1",0.25897205,,0.3029456,STAND_TO_LIE

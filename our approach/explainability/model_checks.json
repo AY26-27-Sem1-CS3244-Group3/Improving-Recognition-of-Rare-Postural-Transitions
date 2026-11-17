@@ -1,0 +1,13 @@
+{
+  "matched_final_predictions": 3162,
+  "transition_windows": 166,
+  "participants": 9,
+  "base_transition_correct": 152,
+  "final_transition_correct": 158,
+  "reference_training_rows": {
+    "Sitting": 1767,
+    "Standing": 5625,
+    "Laying": 4504
+  },
+  "checkpoint_sha256": "1fbd5380050725c4b52c0dce8eea421c13f7c0cb75c8c6c58b478c562ec01431"
+}
